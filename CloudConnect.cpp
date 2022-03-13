@@ -1,4 +1,4 @@
-#include "CloudConnect.h"
+/*#include "CloudConnect.h"
 
 WiFiClientSecure net = WiFiClientSecure();
 MQTTClient client = MQTTClient(256);
@@ -67,4 +67,4 @@ void publishMessage()
   client.loop();
   Serial.println ("published");
   delay(1000);
-}
+}*/

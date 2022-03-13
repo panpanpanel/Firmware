@@ -2,3 +2,5 @@
 #include <SPI.h>
 
 void setupADC();
+
+float readADC();

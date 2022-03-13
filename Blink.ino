@@ -5,11 +5,12 @@ SCK: 18
 SS: 5
 */
 
-#include "CloudConnect.h"
-#include "BreakerServos.h"
+//#include "CloudConnect.h"
+//#include "BreakerServos.h"
 #include "StepperMotor.h"
-#include "CustomADC.h"
+//#include "CustomADC.h"
 
+/*
 int total_diff = 0; //THIS MIGHT NEED TO BE VOLATILE
 volatile bool done_phase, done_1 = false;
 volatile unsigned long long time1, time2, diff;
@@ -28,15 +29,16 @@ void IRAM_ATTR isr2() {
     done_phase = true;
   }
 }
-
-void setupButton() {
-  pinMode(buttonPin, INPUT);
-}
+*/
 
 void startSPI() {
-  // THESE MIGHT NEED TO BE PLAYED AROUND WITH A LITTLE
-  SPI.begin(18,19,23,5);
-  SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE1));
+  SPI.begin(16,4,0,2);
+  SPI.beginTransaction(SPISettings(500000, MSBFIRST, SPI_MODE3));
+}
+
+/*
+void setupButton() {
+  pinMode(buttonPin, INPUT);
 }
 
 void setupPhaseDifferenceMeasurement () {
@@ -61,13 +63,13 @@ int getPhaseDifference () { // THIS MIGHT NEED TO BE VOLATILE INT BECAUSE 'DIFF'
   done_1 = false;
   return local_diff;
 }
-
+*/
 void setup() {
-  //Serial.begin(115200);
+  Serial.begin(115200);
 
   //setupButton();
 
-  //startSPI();
+  startSPI();
   
   //connectToCloud();
 
@@ -77,16 +79,37 @@ void setup() {
 
   //setupServos();
 
-  //setupStepper();
+  setupStepper();
+  setTargetStepperPosition(6000);
+
+  //pinMode (12, OUTPUT);
 }
 
 void loop() {
+  /*
+  flipBreakerA();
+  delay (4000);
+  */
+
+  if (getActualStepperPosition() == 6000) {
+    setTargetStepperPosition(0);
+  }
+
+  if (getActualStepperPosition() == 0) {
+    setTargetStepperPosition(6000);
+  }
+
+  byte interruptFlags[4];
+  getStepperInterruptFlags(interruptFlags);
+  printStepperData(interruptFlags);
+  
   /*Phase difference measurement
   if (done_phase) {
     total_diff = getPhaseDifference();
   }
   */
 
+  /*
   buttonState = digitalRead(buttonPin);
   if (buttonState != lastButtonState) {
     if (buttonState == HIGH) {
@@ -95,8 +118,13 @@ void loop() {
     }
   }
   lastButtonState = buttonState;
-  
+  */
+
   //publishMessage();
 
-  //float val = readADC();
+/*
+  float val = readADC();
+  Serial.println (val);
+  Serial.println("");
+  delay (100);*/
 }

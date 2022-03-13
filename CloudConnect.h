@@ -1,3 +1,5 @@
+/*#ifndef CLOUD_CONNECT_H
+#define CLOUD_CONNECT_H
 #include "secrets.h"
 #include "WiFi.h"
 #include <WiFiClientSecure.h>
@@ -16,3 +18,4 @@ void messageHandler(String &topic, String &payload);
 void connectToCloud();
 
 void publishMessage();
+#endif*/

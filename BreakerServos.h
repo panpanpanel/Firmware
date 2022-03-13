@@ -3,11 +3,11 @@
 
 extern Servo servoA;
 extern int servoAPin;
-extern bool servoStateA;
+extern int servoStateA;
 
 extern Servo servoB;
 extern int servoBPin;
-extern bool servoStateB;
+extern int servoStateB;
 
 void setupServos ();
 
@@ -15,6 +15,6 @@ void moveServoA (int angle);
 
 void moveServoB (int angle);
 
-void flipBreakerA (bool left);
+void flipBreakerA ();
 
-void flipBreakerB (bool left);
+void flipBreakerB ();

@@ -1,12 +1,17 @@
 #include "BreakerServos.h"
 
 Servo servoA;
-int servoAPin = 14; // EDIT THIS?
-bool servoAState = 0;
+int servoAPin = 19;
+int servoAState = 0;
 
 Servo servoB;
-int servoBPin = 15; // EDIT THIS?
-bool servoBState = 0;
+int servoBPin = 18;
+int servoBState = 0;
+
+const int NEUTRAL = 135;
+const int FLIP = 110;
+const int ON = NEUTRAL - FLIP;
+const int OFF = NEUTRAL + FLIP;
 
 void setupServos () {
   ESP32PWM::allocateTimer(0);
@@ -15,8 +20,8 @@ void setupServos () {
   ESP32PWM::allocateTimer(3);
   servoA.setPeriodHertz(50);
   servoA.attach(servoAPin, 500, 2500);
-  servoB.setPeriodHertz(50);
-  servoB.attach(servoAPin, 500, 2500);
+  //servoB.setPeriodHertz(50);
+  //servoB.attach(servoBPin, 500, 2500);
 }
 
 void moveServoA (int angle) {
@@ -30,13 +35,15 @@ void moveServoB (int angle) {
 }
 
 void flipBreakerA () {
-  moveServoA (servoStateA ? 0 : 180); // flip on or off based on current state
-  delay (1000); // wait for operation to complete
-  moveServoA (90); // return to middle position
+  moveServoA (servoAState == ON ? OFF : ON); // flip on or off based on current state
+  delay (2000); // wait for operation to complete
+  moveServoA (NEUTRAL); // return to middle position
+  servoAState = servoAState == ON ? OFF : ON;
 }
 
 void flipBreakerB () {
-  moveServoB (servoState ? 0 : 180);
-  delay (1000);
-  moveServoB (90);
+  moveServoB (servoBState == ON ? OFF : ON); // flip on or off based on current state
+  delay (2000); // wait for operation to complete
+  moveServoB (NEUTRAL); // return to middle position
+  servoBState = servoBState == ON ? OFF : ON;
 }
