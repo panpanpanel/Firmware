@@ -3,8 +3,8 @@
 #define SECRET
 #define THINGNAME "ESP32_panneliQ"
 
-const char WIFI_SSID[] = "Vansh Wifi";
-const char WIFI_PASSWORD[] = "youmakeone";
+const char WIFI_SSID[] = "S7 Edge";
+const char WIFI_PASSWORD[] = "richardepp";
 const char AWS_IOT_ENDPOINT[] = "a2yx07piif85pi-ats.iot.us-east-1.amazonaws.com";
 
 // Amazon Root CA 1

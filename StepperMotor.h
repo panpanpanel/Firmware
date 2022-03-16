@@ -3,6 +3,8 @@
 
 void setupStepper();
 
+void homeStepper();
+
 void setTargetStepperPosition (int pos);
 
 int getActualStepperPosition ();

@@ -5,12 +5,12 @@ SCK: 18
 SS: 5
 */
 
-//#include "CloudConnect.h"
-//#include "BreakerServos.h"
+#include "CloudConnect.h"
+#include "BreakerServos.h"
 #include "StepperMotor.h"
-//#include "CustomADC.h"
+#include "CustomADC.h"
 
-/*
+
 int total_diff = 0; //THIS MIGHT NEED TO BE VOLATILE
 volatile bool done_phase, done_1 = false;
 volatile unsigned long long time1, time2, diff;
@@ -29,14 +29,12 @@ void IRAM_ATTR isr2() {
     done_phase = true;
   }
 }
-*/
 
 void startSPI() {
   SPI.begin(16,4,0,2);
   SPI.beginTransaction(SPISettings(500000, MSBFIRST, SPI_MODE3));
 }
 
-/*
 void setupButton() {
   pinMode(buttonPin, INPUT);
 }
@@ -63,7 +61,7 @@ int getPhaseDifference () { // THIS MIGHT NEED TO BE VOLATILE INT BECAUSE 'DIFF'
   done_1 = false;
   return local_diff;
 }
-*/
+
 void setup() {
   Serial.begin(115200);
 
@@ -71,26 +69,27 @@ void setup() {
 
   startSPI();
   
-  //connectToCloud();
+  connectToCloud();
 
-  //setupADC();
+  setupADC();
 
   //setupPhaseDifferenceMeasurement ();
 
-  //setupServos();
+  setupServos();
 
   setupStepper();
-  setTargetStepperPosition(6000);
-
-  //pinMode (12, OUTPUT);
+  //homeStepper();
 }
 
 void loop() {
+  client.loop();
+  delay(1000);
   /*
   flipBreakerA();
   delay (4000);
   */
-
+  
+  /*
   if (getActualStepperPosition() == 6000) {
     setTargetStepperPosition(0);
   }
@@ -98,10 +97,9 @@ void loop() {
   if (getActualStepperPosition() == 0) {
     setTargetStepperPosition(6000);
   }
+*/
 
-  byte interruptFlags[4];
-  getStepperInterruptFlags(interruptFlags);
-  printStepperData(interruptFlags);
+  //delay(100);
   
   /*Phase difference measurement
   if (done_phase) {

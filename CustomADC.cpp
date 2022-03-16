@@ -1,3 +1,6 @@
+/*
+ * CH2: Line voltage
+*/
 #include "CustomADC.h"
 
 int ADC_CS_Pin = 14;
