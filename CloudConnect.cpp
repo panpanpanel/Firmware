@@ -3,14 +3,6 @@
 WiFiClientSecure net = WiFiClientSecure();
 MQTTClient client = MQTTClient(512);
 
-void messageHandler(String &topic, String &payload) {
-  Serial.println("incoming: " + topic + " - " + payload);
-
-  StaticJsonDocument<200> doc;
-  deserializeJson(doc, payload);
-  const char* message = doc["message"];
-}
-
 void connectToCloud()
 {
   WiFi.mode(WIFI_STA);
@@ -54,14 +46,14 @@ void connectToCloud()
   Serial.println("AWS IoT Connected!");
 }
 
-void publishMessage(int door_latched, int voltage, int currents[12])
+void publishMessage(int door_latched, int voltage, int currents[8])
 {
-  StaticJsonDocument<200> doc;
+  StaticJsonDocument<512> doc;
   doc["device_id"] = analogRead(0);
-  doc["time"] = millis();
+  //doc["time"] = millis();
   doc["is_door_latched"] = door_latched;
   doc["voltage"] = voltage;
-  for (int i = 0 ; i < 12 ; i++) {
+  for (int i = 0 ; i < 8 ; i++) {
     String a = "breaker_";
     String c = "_current";
     String header = a + i + c;
@@ -75,5 +67,5 @@ void publishMessage(int door_latched, int voltage, int currents[12])
 
   client.loop();
   Serial.println ("published");
-  delay(1000);
+  delay(10);
 }

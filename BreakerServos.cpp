@@ -1,17 +1,17 @@
 #include "BreakerServos.h"
 
+const int NEUTRAL = 150;
+const int FLIP = 135;
+const int ON = NEUTRAL - FLIP;
+const int OFF = 270; /*NEUTRAL + FLIP*/
+
 Servo servoA;
 int servoAPin = 19;
-int servoAState = 0;
+int servoAState = OFF;
 
 Servo servoB;
 int servoBPin = 18;
-int servoBState = 0;
-
-const int NEUTRAL = 135;
-const int FLIP = 110;
-const int ON = NEUTRAL - FLIP;
-const int OFF = NEUTRAL + FLIP;
+int servoBState = OFF;
 
 void setupServos () {
   ESP32PWM::allocateTimer(0);

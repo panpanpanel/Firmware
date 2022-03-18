@@ -12,7 +12,7 @@ void setupADC() {
 
 float readADC() {
   digitalWrite(ADC_CS_Pin, LOW);
-  SPI.transfer(0b00011010); // CH2
+  SPI.transfer(0b00011011); // CH3
   unsigned short secondTransfer = SPI.transfer16(0x0);
   unsigned short thirdTransfer = SPI.transfer16(0x0);
   Serial.print(secondTransfer, BIN);

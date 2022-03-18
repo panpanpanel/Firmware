@@ -58,7 +58,6 @@ void setupStepper () {
 }
 
 void homeStepper() {
-  //dataTransfer(DUMMY_WRITE_LATCH);
   dataTransfer(WRITE_MAX_ACTUAL_POSITION);
   dataTransfer(WRITE_MIN_TARGET_POSITION);
   byte interruptFlags[4];
@@ -70,7 +69,9 @@ void homeStepper() {
   dataTransfer(WRITE_ZERO_ACTUAL_POSITION);
 }
 
+// pos is in units of cm
 void setTargetStepperPosition (int pos) {
+  pos *= 500;
   byte c = (pos & 0xFF);
   byte b = ((pos >> 8) & 0xFF);
   byte a = ((pos >> 16) & 0xFF);
@@ -84,7 +85,7 @@ int getActualStepperPosition () {
   int pos = (int) read_x_actual[1] << 16;
   pos |= (int) read_x_actual[2] << 8;
   pos |= (int) read_x_actual[3];
-  return pos;
+  return pos/500;
 }
 
 void getStepperInterruptFlags (byte readInterrupt[4]) {

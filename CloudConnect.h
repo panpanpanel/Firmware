@@ -8,7 +8,7 @@
 
 // The MQTT topics that this device should publish/subscribe
 #define AWS_IOT_PUBLISH_TOPIC "measure/basic"
-#define AWS_IOT_SUBSCRIBE_TOPIC "esp32/sub"
+#define AWS_IOT_SUBSCRIBE_TOPIC "control/basic"
 
 extern WiFiClientSecure net;
 extern MQTTClient client;
