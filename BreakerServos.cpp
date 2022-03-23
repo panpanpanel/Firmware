@@ -1,8 +1,8 @@
 #include "BreakerServos.h"
 
 const int NEUTRAL = 150;
-const int FLIP = 135;
-const int ON = NEUTRAL - FLIP;
+//const int FLIP = 120;
+const int ON = 20; /*NEUTRAL - FLIP;*/
 const int OFF = 270; /*NEUTRAL + FLIP*/
 
 Servo servoA;

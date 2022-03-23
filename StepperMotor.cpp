@@ -47,6 +47,7 @@ void dataTransfer (byte info[4]) {
 
 void setupStepper () {
   pinMode (STEPPER_CS, OUTPUT);
+  pinMode (5, INPUT);
   dataTransfer(WRITE_CONFIG);
   dataTransfer(WRITE_MIN_VELOCITY);
   dataTransfer(WRITE_MAX_VELOCITY);
@@ -62,16 +63,20 @@ void homeStepper() {
   dataTransfer(WRITE_MIN_TARGET_POSITION);
   byte interruptFlags[4];
   bool limitReached = false;
+  while (!digitalRead(5)) {
+    //Serial.print("homing: ");
+    //Serial.println(getActualStepperPosition());
+  }/*
   while (!limitReached) {
     getStepperInterruptFlags(interruptFlags);
     limitReached = (interruptFlags[0] & 0b00000010) >> 1;
-  }
+  }*/
   dataTransfer(WRITE_ZERO_ACTUAL_POSITION);
 }
 
 // pos is in units of cm
-void setTargetStepperPosition (int pos) {
-  pos *= 500;
+void setTargetStepperPosition (int mm) {
+  int pos = mm*100;
   byte c = (pos & 0xFF);
   byte b = ((pos >> 8) & 0xFF);
   byte a = ((pos >> 16) & 0xFF);
@@ -82,10 +87,12 @@ void setTargetStepperPosition (int pos) {
 int getActualStepperPosition () {
   byte read_x_actual[4] = {3, 0, 0, 0};
   dataTransfer(read_x_actual);
+  //Serial.print ("returned stepper position data: ");
+  //printStepperData(read_x_actual);
   int pos = (int) read_x_actual[1] << 16;
   pos |= (int) read_x_actual[2] << 8;
   pos |= (int) read_x_actual[3];
-  return pos/500;
+  return pos/100;
 }
 
 void getStepperInterruptFlags (byte readInterrupt[4]) {

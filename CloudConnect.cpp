@@ -46,7 +46,7 @@ void connectToCloud()
   Serial.println("AWS IoT Connected!");
 }
 
-void publishMessage(int door_latched, int voltage, int currents[8])
+void publishMessage(int door_latched, int voltage, float currents[8])
 {
   StaticJsonDocument<512> doc;
   doc["device_id"] = analogRead(0);
@@ -66,6 +66,6 @@ void publishMessage(int door_latched, int voltage, int currents[8])
   client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
 
   client.loop();
-  Serial.println ("published");
+  //Serial.println ("published");
   delay(10);
 }

@@ -17,5 +17,5 @@ void messageHandler(String &topic, String &payload);
 
 void connectToCloud();
 
-void publishMessage(int door_latched, int voltage, int currents[12]);
+void publishMessage(int door_latched, int voltage, float currents[8]);
 //#endif

@@ -3,7 +3,7 @@
 #define SECRET
 #define THINGNAME "ESP32_panneliQ"
 
-const char WIFI_SSID[] = "S7 Edge";
+const char WIFI_SSID[] = "MSI 5810";
 const char WIFI_PASSWORD[] = "richardepp";
 const char AWS_IOT_ENDPOINT[] = "a2yx07piif85pi-ats.iot.us-east-1.amazonaws.com";
 
