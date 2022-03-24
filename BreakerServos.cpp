@@ -1,6 +1,6 @@
 #include "BreakerServos.h"
 
-const int NEUTRAL = 150;
+const int NEUTRAL = 140;
 //const int FLIP = 120;
 const int ON = 20; /*NEUTRAL - FLIP;*/
 const int OFF = 270; /*NEUTRAL + FLIP*/

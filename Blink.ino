@@ -48,7 +48,7 @@ void setupMuxCh1Input() {
   digitalWrite(33, LOW);
 }
 
-setupClearCurrentPin() {
+void setupClearCurrentPin() {
   pinMode(clearCurrentPin, OUTPUT);
   digitalWrite(clearCurrentPin, LOW);
 }
@@ -67,7 +67,7 @@ void IRAM_ATTR isr2() {
 }
 
 void startSPI() {
-  SPI.begin(16,4,0,2);
+  SPI.begin(16,4,0,14);
   SPI.beginTransaction(SPISettings(500000, MSBFIRST, SPI_MODE3));
 }
 
@@ -99,11 +99,17 @@ int getBreakerPosition (int breaker) {
   if (breaker == 1) {
     return 10;
   }
-  if (breaker == 2) {
+  else if (breaker == 2) {
     return 60;
   }
-  if (breaker == 3) {
-    return 110;
+  else if (breaker == 3) {
+    return 120;
+  }
+  else if (breaker == 4) {
+    return 135;
+  }
+  else {
+    return 0;
   }
 }
 
@@ -123,17 +129,11 @@ void setup() {
   setupServos();
   setupStepper();
   homeStepper();
-  //setupPhaseDifferenceMeasurement ();
+  //setupPhaseDifferenceMeasurement();
 }
 
 void loop() {
   int stepperPosition = getActualStepperPosition();
-  
-  //Serial.print ("Actual Stepper Position: ");
-  //Serial.println (getActualStepperPosition());
-  //delay(500);
-
-  // spaces between breakers are 5 cm
 
   if (flipListSize > 0) {
     setTargetStepperPosition(getBreakerPosition(flipList[0]));
@@ -152,26 +152,17 @@ void loop() {
   digitalWrite(clearCurrentPin, LOW);
   delay(1000);
 
-  float breaker1Current = readADC()*1.75;
+  float breaker1Current = readADC();
+  float calibratedCurrent = pow(breaker1Current, 2)*0.2527 + (1.124*breaker1Current); // polynomial fit
   Serial.print ("ADC Reading: ");
-  Serial.println (breaker1Current);
+  Serial.println (calibratedCurrent, 3);
   
   float currents[8] = {1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5};
-  currents[0] = breaker1Current;
+  currents[0] = calibratedCurrent;
   publishMessage(1, 120, currents);
 
   client.loop();
-  //delay(50);
-  
-  /*
-  if (Serial.available() > 0) {
-    // read the incoming byte:
-    int dataIn = Serial.parseInt();
-    if (dataIn > 0) {
-      setTargetStepperPosition(dataIn);
-    }
-  }*/
-  
+
   /*Phase difference measurement
   if (done_phase) {
     total_diff = getPhaseDifference();

@@ -49,7 +49,7 @@ void connectToCloud()
 void publishMessage(int door_latched, int voltage, float currents[8])
 {
   StaticJsonDocument<512> doc;
-  doc["device_id"] = analogRead(0);
+  doc["device_id"] = 0;
   //doc["time"] = millis();
   doc["is_door_latched"] = door_latched;
   doc["voltage"] = voltage;

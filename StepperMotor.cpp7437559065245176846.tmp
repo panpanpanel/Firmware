@@ -48,7 +48,7 @@ void dataTransfer (byte info[4]) {
 void setupStepper () {
   pinMode (STEPPER_CS, OUTPUT);
   pinMode (5, INPUT);
-  digitalWrite(STEPPER_CS, HIGH);
+  digitalWrite(5, HIGH);
   dataTransfer(WRITE_CONFIG);
   dataTransfer(WRITE_MIN_VELOCITY);
   dataTransfer(WRITE_MAX_VELOCITY);
@@ -64,13 +64,14 @@ void homeStepper() {
   dataTransfer(WRITE_MIN_TARGET_POSITION);
   byte interruptFlags[4];
   bool limitReached = false;
-  while (!digitalRead(5)) {}
-  /*  
+  while (!digitalRead(5)) {
+    //Serial.print("homing: ");
+    //Serial.println(getActualStepperPosition());
+  }/*
   while (!limitReached) {
     getStepperInterruptFlags(interruptFlags);
     limitReached = (interruptFlags[0] & 0b00000010) >> 1;
-  }
-  */
+  }*/
   dataTransfer(WRITE_ZERO_ACTUAL_POSITION);
 }
 

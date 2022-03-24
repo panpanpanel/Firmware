@@ -13,13 +13,11 @@ void setupADC() {
 
 float readADC() {
   digitalWrite(ADC_CS_Pin, LOW);
-  SPI.transfer(0b00011011); // CH3
-  unsigned short secondTransfer = SPI.transfer16(0x0);
-  unsigned short thirdTransfer = SPI.transfer16(0x0);
-  //Serial.print(secondTransfer, BIN);
-  //Serial.println(thirdTransfer, BIN);
-  unsigned short shifted = (secondTransfer >> 2) & (0x0FFF);
+  SPI.transfer(0b00000110); // CH 3
+  unsigned short firstTransfer = SPI.transfer(0b11000000); // CH 3
+  unsigned short secondTransfer = SPI.transfer(0);
+  uint16_t value = (firstTransfer & 0x0F) << 8 | secondTransfer;
   digitalWrite(ADC_CS_Pin, HIGH);
-  float val = shifted*PER_BIT;
+  float val = value*PER_BIT;
   return val;
 }
